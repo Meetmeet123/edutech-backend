@@ -1,0 +1,4934 @@
+openapi: 3.0.0
+info:
+  title: HRM PRO
+  version: 1.0.0
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
+tags:
+  - name: user
+  - name: hr
+  - name: hr > education
+  - name: hr > designation
+  - name: hr > designationHistory
+  - name: hr > salaryHistory
+  - name: hr > shift
+  - name: hr > employment status
+  - name: hr > award
+  - name: hr > awardHistory
+  - name: hr > leave application
+  - name: hr > payroll
+  - name: hr > role
+  - name: hr > permission
+  - name: hr > role permission
+  - name: hr > leavePolicy
+  - name: hr > weeklyHoliday
+  - name: hr > publicHoliday
+  - name: hr > attendance
+  - name: hr > announcement
+  - name: hr > department
+  - name: accounting
+  - name: accounting > account
+  - name: accounting > transaction
+  - name: dashboard
+  - name: setting
+  - name: Email
+  - name: files
+  - name: pm
+  - name: pm > project
+  - name: pm > milestone
+  - name: pm > projectTask
+  - name: pm > project team
+  - name: pm > task status
+  - name: pm > task priority
+paths:
+  /user/register:
+    post:
+      tags:
+        - user
+      summary: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                firstName: hello2
+                lastName: hello2
+                username: hello24
+                password: hello2
+                email: helloe4@example.com
+                phone: 11223-43263-7204
+                street: 123 Main Street
+                city: Anytown
+                state: CA
+                zipCode: '12345'
+                country: USA
+                joinDate: '2023-04-12T11:36:03.700Z'
+                employeeId: '1636030'
+                bloodGroup: O+
+                image: https://example.com/profile/johndoe.jpg
+                employmentStatusId: 1
+                departmentId: 1
+                roleId: 2
+                shiftId: 1
+                leavePolicyId: 2
+                weeklyHolidayId: 2
+                designationId: 1
+                designationStartDate: '2023-04-12T11:36:03.700Z'
+                designationComment: new employee
+                salary: 30000
+                salaryStartDate: '2020-03-19T14:21:00'
+                salaryComment: new employee
+                education:
+                  - degree: Bachelor's
+                    institution: Example University
+                    fieldOfStudy: Computer Science
+                    result: 3.5 GPA
+                    studyStartDate: '2018-09-01'
+                  - degree: Bachelor's 2
+                    institution: Example University 2
+                    fieldOfStudy: Computer Science 2
+                    result: 3.5 GPA
+                    studyStartDate: '2018-09-01'
+                    studyEndDate: '2022-05-01'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /user/login:
+    post:
+      tags:
+        - user
+      summary: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: admin
+                password: admin
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '401':
+          description: error
+          content:
+            application/json: {}
+  /user:
+    get:
+      tags:
+        - user
+      summary: get all users by all, or status
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /user/{id}:
+    get:
+      tags:
+        - user
+      summary: get a single
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '401':
+          description: unauthorized
+          content:
+            application/json: {}
+    put:
+      tags:
+        - user
+      summary: update a single
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                firstName: John
+                lastName: Doe
+                username: johnddoe
+                password: johndoe
+                email: johnddoe2@example.com
+                phone: 122d3-456-7890
+                street: 123 Main Street
+                city: Anytown
+                state: CA
+                zipCode: '12345'
+                country: USA
+                joinDate: '2020-03-19T08:21:00.000Z'
+                leaveDate: '2020-03-19T08:21:00.000Z'
+                employeeId: 12d234
+                bloodGroup: O+
+                image: https://example.com/profile/johndoe.jpg
+                employmentStatusId: 2
+                departmentId: 1
+                roleId: 1
+                shiftId: 3
+                leavePolicyId: 2
+                weeklyHolidayId: 2
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    patch:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      tags:
+        - user
+      summary: change status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "false"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  
+  /education?query=createmany:
+    post:
+      tags:
+        - hr > education
+      summary: create many education
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - userId: 1
+                  degree: Bachelor's
+                  institution: Example University
+                  fieldOfStudy: Computer Science
+                  result: 3.5 GPA
+                  studyStartDate: 2016-09-01
+                  studyEndDate: 2019-10-01
+                - userId: 1
+                  degree: Master's
+                  institution: Example University
+                  fieldOfStudy: Social Science
+                  result: 2.5 GPA
+                  studyStartDate: 2019-09-01
+                  studyEndDate: 2020-10-01
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {} 
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /education?query=deletemany:
+    post:
+      tags:
+        - hr > education
+      summary: delete many education
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              example:
+                - 5
+                - 6
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {} 
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /education:
+    post:
+      tags:
+        - hr > education
+      summary: create single education
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: 1
+                degree: Bachelor's
+                institution: Example University
+                fieldOfStudy: Computer Science
+                result: 3.5 GPA
+                studyStartDate: 2018-09-01
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {} 
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > education
+      summary: get all education by all or by paginated and by status query 
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /education/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      tags:
+        - hr > education
+      summary: get a single education
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '401':
+          description: unauthorized
+          content:
+            application/json: {}
+    put:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      tags:
+        - hr > education
+      summary: update a single education
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                degree: Bachelor's
+                institution: Example University
+                fieldOfStudy: Computer Science
+                result: 3.6 GPA
+                studyStartDate: '2018-09-01 00:00:00'
+                studyEndDate: '2020-03-19T14:21:00'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: not found!
+          content:
+            application/json: {}
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      tags:
+        - hr > education
+      summary: delete a single education
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: not found!
+          content:
+            application/json: {}
+  /education/{statusId}:
+    put:
+      tags:
+        - hr > education
+      summary: change status of education
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "false"
+      parameters:
+        - in: path
+          name: statusId
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: query
+          schema:
+            type: string
+            example: "status"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: not found!
+          content:
+            application/json: {}
+    
+  /designation?query=createmany:
+    post:
+      tags:
+        - hr > designation
+      summary: create many designation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - name: test designation1
+                - name: test designation2
+                - name: test designation3
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /designation?query=deletemany:
+    post:
+      tags:
+        - hr > designation
+      summary: delete many designation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              example:
+                - 5
+                - 6
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /designation:
+    post:
+      tags:
+        - hr > designation
+      summary: create a single, createmany and deletemany designation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: test designation
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['createmany', 'deletemany']
+          example: 
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > designation
+      summary: get all designation by all or by status query
+      description: get all the designation using bellow this <br>
+        1. query=all <br> 
+        2. status=true<br> 
+        3. status=false<br>
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '400':
+          description: invalid query!
+          content:
+            application/json: {}          
+  /designation/{id}:
+    put:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      tags:
+        - hr > designation
+      summary: update a single designation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: test update
+                status: 'true'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: not found!
+          content:
+            application/json: {}
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      tags:
+        - hr > designation
+      summary: delete a single designation
+      
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: not found!
+          content:
+            application/json: {}
+  /designation/employee:
+    get:
+      tags:
+        - hr > designation
+      summary: get all designation wise employee
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /designation/employee/{id}:
+    get:
+      tags:
+        - hr > designation
+      summary: get a single designation wise employee
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  
+  /designationHistory?query=deletemany:
+    post:
+      tags:
+        - hr > designationHistory
+      summary: delete many designationHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              example:
+                - 5
+                - 6
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /designationHistory?query=createmany:
+    post:
+      tags:
+        - hr > designationHistory
+      summary: create many designationHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - userId: 1
+                  designationId: 1
+                  designationStartDate: 2020-03-19T14:21:00
+                  designationComment: new employee1
+                - userId: 1
+                  designationId: 1
+                  designationStartDate: 2020-03-19T14:21:00
+                  designationComment: new employee2
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /designationHistory:
+    post:
+      tags:
+        - hr > designationHistory
+      summary: create a single designationHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: 1
+                designationId: 1
+                designationStartDate: 2020-03-19T14:21:00
+                designationComment: new employee
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > designationHistory
+      summary: get all designationHistory
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+          example: all
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /designationHistory/{id}:
+    get:
+      tags:
+        - hr > designationHistory
+      summary: get a single designationHistory
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > designationHistory
+      summary: update a single designationHistory
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                designationId: 2
+                designationStartDate: '2024-12-19T14:21:00'
+                designationEndDate: null
+                designationComment: updated employee
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: not found!
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - hr > designationHistory
+      summary: delete a single designationHistory
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: not found
+          content:
+            application/json: {}
+
+  /salaryHistory?query=createmany:
+    post:
+      tags:
+        - hr > salaryHistory
+      summary: create many salaryHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - userId: 1
+                  salary: 55000
+                  salaryStartDate: 2020-03-19T14:21:00
+                  salaryEndDate: 2020-03-19T14:21:00
+                  salaryComment: new employee
+                - userId: 1
+                  salary: 55000
+                  salaryStartDate: 2020-03-19T14:21:00
+                  salaryEndDate: 2020-03-19T14:21:00
+                  salaryComment: new employee
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /salaryHistory?query=deletemany:
+    post:
+      tags:
+        - hr > salaryHistory
+      summary: delete many salaryHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              example:
+                - 5
+                - 6
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /salaryHistory:
+    post:
+      tags:
+        - hr > salaryHistory
+      summary: create a single salaryHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: 1
+                salary: 55000
+                salaryStartDate: 2020-03-19T14:21:00
+                salaryEndDate: 2020-03-19T14:21:00
+                salaryComment: new employee
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > salaryHistory
+      summary: get all salaryHistory by all or by paginated and by status query 
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /salaryHistory/{id}:
+    get:
+      tags:
+        - hr > salaryHistory
+      summary: get a single salaryHistory
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema: 
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - hr > salaryHistory 
+      summary: delete a single salaryHistory
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema: 
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: not found!
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > salaryHistory
+      summary: update of salaryHistory
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: 
+            type: integer
+            example: 2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                salary: 60000
+                salaryStartDate: 2020-03-19T14:21:00
+                salaryEndDate: 2020-03-19T14:21:00
+                salaryComment: new employee updated
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '400':
+          description: invalid query
+          content:
+            application/json: {}
+  /salaryHistory/{id}?query=status:
+    put:
+      tags:
+        - hr > salaryHistory
+      summary: salaryHistory status update
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: 
+            type: integer
+            example: 2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "false"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '400':
+          description: invalid query
+          content:
+            application/json: {}
+
+  /shift?query=createmany:
+    post:
+      tags:
+        - hr > shift
+      summary: create many shift
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - name: test2
+                  startTime: '2023-04-02T09:00:00.000Z'
+                  endTime: '2023-04-02T05:00:00.000Z'
+                - name: test3
+                  startTime: '2023-04-02T18:00:00.000Z'
+                  endTime: '2023-04-02T02:00:00.000Z'
+                - name: test4
+                  startTime: '2023-04-02T21:00:00.000Z'
+                  endTime: '2023-04-02T05:00:00.000Z'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /shift?query=deletemany:
+    post:
+      tags:
+        - hr > shift
+      summary: delete many shift
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              example:
+                - 5
+                - 6
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /shift:
+    post:
+      tags:
+        - hr > shift
+      summary: create a single shift
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: testABC
+                startTime: '2023-04-02T09:00:00.000Z'
+                endTime: '2023-04-02T05:00:00.000Z'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > shift
+      summary: get all the shift by all, paginate query with status
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '400':
+          description: Invalid query
+          content:
+            application/json: {}
+  /shift/{id}:
+    get:
+      tags:
+        - hr > shift
+      summary: get single shift
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema: 
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > shift
+      summary: update a single shift
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema: 
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: test w7
+                startTime: '1970-01-01T21:00:00.000Z'
+                endTime: '1970-01-01T05:00:00.000Z'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - hr > shift
+      summary: delete single shift
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema: 
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: not found!
+          content:
+            application/json: {}
+
+  /employment-status?query=createmany:
+    post:
+      tags:
+        - hr > employment status
+      summary: create many employmentStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - name: red
+                  colourValue: '#FF0000'
+                  description: the red
+                - name: blue
+                  colourValue: '#0000FF'
+                  description: the blue
+                - name: yellow
+                  colourValue: '#FFFF00'
+                  description: the yellow
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /employment-status:
+    post:
+      tags:
+        - hr > employment status
+      summary: create a single employmentStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - name: testColor
+                  colourValue: '#FF0000'
+                  description: the red
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > employment status
+      summary: get all employmentStatus by all or paginated query with status
+      parameters:
+        - in: query
+          name: query
+          schema: 
+            type: string
+            enum: ['all']
+            example: 'all'
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: ['true', 'false']
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '400':
+          description: Invalid query
+          content:
+            application/json: {}
+  /employment-status/{id}:
+    get:
+      tags:
+        - hr > employment status
+      summary: get a single employmentStatus
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema: 
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > employment status
+      summary: delete a single employmentStatus
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema: 
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "false"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+
+  /award?query=createmany:
+    post:
+      tags:
+        - hr > award
+      summary: create many award
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - name: Bests employee of the Quarter1
+                  description: best employee1
+                - name: Bests employee of the Quarter2
+                  description: best employee2
+                - name: Bests employee of the Quarter3
+                  description: best employee3
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /award?query=deletemany:
+    post:
+      tags:
+        - hr > award
+      summary: delete many award
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              example:
+                - 3
+                - 4
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}  
+        '500':
+          description: server side error
+          content:
+            application/json: {}    
+  /award:
+    post:
+      tags:
+        - hr > award
+      summary: create a single award
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Bests employee of the Quarter1
+                description: best employee1
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > award
+      summary: get all award by all or paginated with status query
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: 'all'
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /award/{id}:
+    get:
+      tags:
+        - hr > award
+      summary: get a single award
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '401':
+          description: unauthorized
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > award
+      summary: update a single award
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Employee of the Month aaaaaaaaaaaa
+                description: Employee who has performed well in the month
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - hr > award
+      summary: delete a single award
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "false"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+
+  /awardHistory?query=deletemany:
+    post:
+      tags:
+        - hr > awardHistory
+      summary: delete many awardHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - 2
+                - 3
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /awardHistory:
+    post:
+      tags:
+        - hr > awardHistory
+      summary: create a single awardHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: 1
+                awardId: 1
+                awardedDate: 2020-03-19T14:21:00
+                comment: new employee
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > awardHistory
+      summary: get all awardHistory
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /awardHistory/{id}:
+    get:
+      tags:
+        - hr > awardHistory
+      summary: get a single awardHistory
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > awardHistory
+      summary: update a single awardHistory
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                awardId: 1
+                awardedDate: '2020-09-19T14:21:00'
+                comment: new awardHistory
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - hr > awardHistory
+      summary: delete a single awardHistory
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+
+  /leave-application:
+    post:
+      tags:
+        - hr > leave application
+      summary: create a single leave application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: 1
+                leaveType: PAID
+                leaveFrom: '2023-09-22T12:00:00.000Z'
+                leaveTo: '2023-09-26T12:00:00.000Z'
+                reason: family problem
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > leave application
+      summary: get all leaveApplication by paginated with status or all query
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: 'all'
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['ACCEPTED', 'PENDING']
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /leave-application/{id}:
+    get:
+      tags:
+        - hr > leave application
+      summary: get a single leave application
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+        '401':
+          description: unauthorized
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > leave application
+      summary: review the leaveApplication
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                acceptLeaveFrom: '2023-09-22T12:00:00.000Z'
+                acceptLeaveTo: '2023-09-26T12:00:00.000Z'
+                reviewComment: test
+                status: ACCEPTED
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+  /leave-application/{userId}/leaveHistory:
+    get:
+      tags:
+        - hr > leave application
+      summary: get history by user id
+      parameters: 
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: server side error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  
+  /payroll:
+    get:
+      tags:
+        - hr > payroll
+      summary: calculate payroll
+      parameters:
+        - name: salaryMonth
+          in: query
+          schema:
+            type: integer
+            example: 9
+        - name: salaryYear
+          in: query
+          schema:
+            type: integer
+            example: 2023
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - hr > payroll
+      summary: generate payslip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - userId: 1
+                  salaryMonth: 9
+                  salaryYear: 2023
+                  salary: 1000
+                  paidLeave: 0
+                  unpaidLeave: 0
+                  monthlyHoliday: 0
+                  publicHoliday: 0
+                  workDay: 0
+                  shiftWiseWorkHour: 0
+                  monthlyWorkHour: 0
+                  hourlySalary: 0
+                  bonus: 300
+                  bonusComment: overtime
+                  deduction: 100
+                  deductionComment: poor perform
+                  totalPayable: 1200
+                  workingHour: 30.17
+                  salaryPayable: 1000
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        
+  /payroll/all:
+    get:
+      tags:
+        - hr > payroll
+      summary: get all payslip monthWise
+      parameters:
+        - name: value
+          in: query
+          schema:
+            type: string
+            enum: ['monthWise']
+        - name: salaryMonth
+          in: query
+          schema:
+            type: integer
+            description: '9'
+        - name: salaryYear
+          in: query
+          schema:
+            type: integer
+            description: '2023'
+        - name: paymentStatus
+          in: query
+          schema:
+            type: string
+            enum: ['UNPAID', 'PAID']
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /payroll/{id}:
+    get:
+      tags:
+        - hr > payroll
+      summary: get single payslip
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > payroll
+      summary: update a single payroll
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                bonus: 1000
+                bonusComment: aaaaaaa
+                deduction: 0
+                deductionComment: asd
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /payroll/payment/{id}:
+    put:
+      tags:
+        - hr > payroll
+      summary: make payment
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '400':
+          description: Already Exists (duplicate!)
+          content:
+            application/json: {}
+  
+  /role?query=deletemany:
+    post:
+      tags:
+        - hr > role
+      summary: delete many role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - 5
+                - 6
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /role?query=createmany:
+    post:
+      tags:
+        - hr > role
+      summary: create many role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - name: employee
+                - name: HR
+                - name: Accountant
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /role:
+    post:
+      tags:
+        - hr > role
+      summary: create a single role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: employee
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > role
+      summary: get all role by all or by paginated and status query 
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /role/{id}:
+    get:
+      tags:
+        - hr > role
+      summary: get a single role
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > role
+      summary: update a single role
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: super admin
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - hr > role
+      summary: delete the role
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "false"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  
+  /permission:
+    get:
+      tags:
+        - hr > permission
+      summary: get all permission by all or paginated query
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+
+  /role-permission?query=deletemany:
+    post:
+      tags:
+        - hr > role permission
+      summary: delete many role permission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - 81
+                - 83
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /role-permission:
+    post:
+      tags:
+        - hr > role permission
+      summary: create many
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                roleId: 3
+                permission: 
+                  - 53
+                  - 33
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /role-permission/{id}:
+    delete:
+      tags:
+        - hr > role permission
+      summary: delete a single role permission
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  
+  /leave-policy?query=deletemany:
+    post:
+      tags:
+        - hr > leavePolicy
+      summary: delete many leavePolicy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - 6
+                - 7
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /leave-policy?query=createmany:
+    post:
+      tags:
+        - hr > leavePolicy
+      summary: create many leavePolicy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - name: Policy 5-10
+                - paidLeaveCount: 5
+                - unpaidLeaveCount: 10
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /leave-policy:
+    post:
+      tags:
+        - hr > leavePolicy
+      summary: create a single leavePolicy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Policy 5-10
+                paidLeaveCount: 5
+                unpaidLeaveCount: 10
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > leavePolicy
+      summary: get all leavePolicy by all or by paginated and by status query 
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '400':
+          description: Invalid query
+          content:
+            application/json: {}
+  /leave-policy/{id}:
+    get:
+      tags:
+        - hr > leavePolicy
+      summary: get single leavePolicy
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > leavePolicy
+      summary: update single leavePolicy
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Policy15-21
+                paidLeaveCount: 11
+                unpaidLeaveCount: 15
+                status: 'false'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - hr > leavePolicy
+      summary: delete single leavePolicy
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  
+  /weekly-holiday?query=deletemany:
+    post:
+      tags:
+        - hr > weeklyHoliday
+      summary: delete many weeklyHoliday
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - 3
+                - 4
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /weekly-holiday?query=createmany:
+    post:
+      tags:
+        - hr > weeklyHoliday
+      summary: create many weeklyHoliday
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - name: Saturday-Friday
+                  startDay: Saturday
+                  endDay: Friday
+                - name: Saturday-Thursday
+                  startDay: Saturday
+                  endDay: Thursday
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /weekly-holiday:
+    post:
+      tags:
+        - hr > weeklyHoliday
+      summary: create a single weeklyHoliday
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Saturday-Sunday
+                startDay: Saturday
+                endDay: Sunday
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > weeklyHoliday
+      summary: get all weeklyHoliday by all or by paginated and by status query 
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '400':
+          description: Invalid query
+          content:
+            application/json: {}
+  /weekly-holiday/{id}:
+    get:
+      tags:
+        - hr > weeklyHoliday
+      summary: get single weeklyHoliday
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > weeklyHoliday
+      summary: update single weeklyHoliday
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Saturday-Saturday
+                startDay: Saturday
+                endDay: Saturday
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - hr > weeklyHoliday
+      summary: delete single weeklyHoliday
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  
+  /public-holiday?query=deletemany:
+    post:
+      tags:
+        - hr > publicHoliday
+      summary: delete many public holiday
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - 4
+                - 5
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /public-holiday?query=createmany:
+    post:
+      tags:
+        - hr > publicHoliday
+      summary: create many publicHoliday
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - name: Bengali New Year (Pôhela Boishakh)
+                  date: 2023-04-14T00:00:00.000Z
+                - name: Labour Day
+                  date: 2023-05-14T00:00:00.000Z
+                - name: Ashura
+                  date: 2023-07-27T00:00:00.000Z
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /public-holiday:
+    post:
+      tags:
+        - hr > publicHoliday
+      summary: create a single publicHoliday
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Bengali New Year (Pôhela Boishakh)
+                date: 2023-04-14T00:00:00.000Z
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > publicHoliday
+      summary: get all publicHoliday by all or by paginated and by status query 
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '400':
+          description: Invalid query
+          content:
+            application/json: {}
+  /public-holiday/{id}:
+    get:
+      tags:
+        - hr > publicHoliday
+      summary: get single publicHoliday
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > publicHoliday
+      summary: update single publicHoliday
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Bengali New Year updated (Pôhela Boishakh)
+                date: '2023-10-14T00:00:00.000Z'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - hr > publicHoliday
+      summary: delete single publicHoliday
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+
+  /attendance?query=manualPunch:
+    post:
+      tags:
+        - hr > attendance
+      summary: create manual attendance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: 1
+                inTime: '2023-09-17T08:00:00.000Z'
+                outTime: '2023-09-17T16:00:00.000Z'
+                comment: mistake
+                ip: 10.10.10.10
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '401':
+          description: unauthorized
+          content:
+            application/json: {}
+  /attendance:
+    post:
+      tags:
+        - hr > attendance
+      summary: create single
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                userId: 1
+                comment: mistake
+                ip: 10.10.10.10
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '401':
+          description: unauthorized
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > attendance
+      summary: get all attendance paginated with startDate and endDate or get all attendance by all query
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+        - name: startDate
+          in: query
+          schema:
+            type: date
+            example: 2023-10-01
+        - name: endDate
+          in: query
+          schema:
+            type: date
+            example: 2023-10-30
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '401':
+          description: unauthorized
+          content:
+            application/json: {}
+  /attendance/{id}:
+    get:
+      tags:
+        - hr > attendance
+      summary: get single attendance
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '401':
+          description: unauthorized
+          content:
+            application/json: {}
+  /attendance/{userId}/user:
+    get:
+      tags:
+        - hr > attendance
+      summary: get by userID
+      parameters: 
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /attendance/{userId}/last:
+    get:
+      tags:
+        - hr > attendance
+      summary: get last by userID
+      parameters: 
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  
+  /announcement:
+    post:
+      tags:
+        - hr > announcement
+      summary: create single announcement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: test
+                description: test test
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > announcement
+      summary: get all announcement by all or by paginated and by status query 
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '400':
+          description: Invalid query
+          content:
+            application/json: {}
+  /announcement/{id}:
+    get:
+      tags:
+        - hr > announcement
+      summary: get single announcement
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > announcement
+      summary: update single announcement
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: test up
+                description: test up
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - hr > announcement
+      summary: delete a single announcement
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "false"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+
+  /department?query=createmany:
+    post:
+      tags:
+        - hr > department
+      summary: create many department
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - name: account
+                - name: Business
+                - name: IT
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}  
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /department:
+    post:
+      tags:
+        - hr > department
+      summary: create a single department
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: account2
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - hr > department
+      summary: get all department by all or by paginated and by status query 
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /department/{id}:
+    get:
+      tags:
+        - hr > department
+      summary: get single department
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '401':
+          description: unauthorized!
+          content:
+            application/json: {}
+    put:
+      tags:
+        - hr > department
+      summary: update single department
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: test updated
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - hr > department
+      summary: delete a single department
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: 'false'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  
+  /account:
+    post:
+      tags:
+        - accounting > account
+      summary: create a new account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Tax payable
+                accountId: 2
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - accounting > account
+      summary: get all trial balance, balance sheet, income statement, all sub account and all main account by query
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: ['tb', 'ma', 'bs', 'is', 'sa']
+            example: 'tb'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /account/{id}:
+    get:
+      tags:
+        - accounting > account
+      summary: get a single sub account
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - accounting > account
+      summary: delete a single account
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "false"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - accounting > account
+      summary: update a single account
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Bank 2
+                accountId: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+
+  /transaction:
+    post:
+      tags:
+        - accounting > transaction
+      summary: create a new transaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                date: '2022-09-09T04:15:24.880Z'
+                debitId: 11
+                creditId: 2
+                amount: 300
+                particulars: rent pay from bank
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - accounting > transaction
+      summary: get all transaction by query or by paginate or transaction Id
+      description: get all the transaction using query=all or query=info or query=inactive,page=1,count=20,startDate=2022-09-01,endDate=2022-12-30 or query=search,transaction=1
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all', 'info', 'inactive', 'search']
+            example: all
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+        - name: startDate
+          in: query
+          schema:
+            type: date
+            example: 2022-09-01
+        - name: endDate
+          in: query
+          schema:
+            type: date
+            example: 2022-12-30
+        - name: transaction
+          in: query
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  /transaction/{id}:
+    get:
+      tags:
+        - accounting > transaction
+      summary: get a single transaction
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - accounting > transaction
+      summary: delete a single transaction
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "false"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - accounting > transaction
+      summary: update a single transaction
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                date: '2022-08-31T12:25:41.137Z'
+                voucher: ''
+                debit_id: 1
+                credit_id: 3
+                amount: 100
+                particulars: ''
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+
+  /dashboard:
+    get:
+      tags:
+        - dashboard
+      summary: get info groupByDay
+      parameters:
+        - name: startdate
+          in: query
+          schema:
+            type: string
+            example: '2023-01-01'
+        - name: enddate
+          in: query
+          schema:
+            type: string
+            example: '2023-12-30'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  
+  /email:
+    get:
+      tags:
+        - Email
+      summary: get email
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+          example: saleinvoice
+        - name: id
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: emailaddress
+          in: query
+          schema:
+            type: string
+          example: rshaon09@gmail.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '400':
+          description: config error
+          content:
+            application/json: {}
+  
+  /setting:
+    put:
+      tags:
+        - setting
+      summary: update setting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                companyName: My Company
+                tagLine: My Tagline
+                address: My Address
+                phone: My Phone
+                email: My Email
+                website: My Website
+                footer: My Footer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - setting
+      summary: get setting
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  
+  /email/user-info:
+    get:
+      tags:
+        - Email
+      summary: send user info
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: integer
+          example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  
+  /files:
+    post:
+      tags:
+        - files
+      summary: upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - files
+      summary: get all
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /files/{imagePath}:
+    get:
+      tags:
+        - files
+      summary: show
+      parameters: 
+        - name: imagePath
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+
+  /project:
+    post:
+      tags:
+        - pm > project
+      summary: create a project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                projectManagerId: 1
+                name: second project
+                startDate: '2023-04-01T14:21:00'
+                endDate: '2023-07-01T14:21:00'
+                description: new project
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - pm > project
+      summary: get all project by query or status
+      description: get all the project using query=all or status=PROGRESS or status=COMPLETE or status=ONHOLD or status=DELETED
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['PROGRESS', 'COMPLETE', 'ONHOLD', 'DELETED']
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '400':
+          description: Invalid query
+          content:
+            application/json: {}
+  /project/{id}:
+    get:
+      tags:
+        - pm > project
+      summary: get single project
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - pm > project
+      summary: update a single project
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: updated
+                status: PROGRESS
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - pm > project
+      summary: delete a project
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "DELETED"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+            
+  /milestone:
+    post:
+      tags:
+        - pm > milestone
+      summary: create milestone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                projectId: 1
+                name: dev
+                startDate: '2023-04-01T14:21:00'
+                endDate: '2023-07-01T14:21:00'
+                description: new project
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - pm > milestone
+      summary: get all milestone by query or status and paginated
+      description: get all the milestone using query=all or status=PROGRESS,page=1,count=20 or status=COMPLETE or status=ONHOLD or status=DELETED,page=1,count=20
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['PROGRESS', 'COMPLETE', 'ONHOLD', 'DELETED']
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: count
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /milestone/{id}?query=all:
+    put:
+      tags:
+        - pm > milestone
+      summary: update all
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                projectId: 1
+                name: updated
+                startDate: '2023-04-01T14:21:00'
+                endDate: '2023-07-01T14:21:00'
+                description: new project
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /milestone/{id}?query=status:
+    put:
+      tags:
+        - pm > milestone
+      summary: update all
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "PROGRESS"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /milestone/{id}:
+    get:
+      tags:
+        - pm > milestone
+      summary: get a single milestone
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - pm > milestone
+      summary: delete a single milestone
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: DELETED
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /milestone/{projectId}/project:
+    get:
+      tags:
+        - pm > milestone
+      summary: get milestone by projectId
+      parameters: 
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+
+  /tasks:
+    post:
+      tags:
+        - pm > projectTask
+      summary: create a task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                projectId: 1
+                milestoneId: 1
+                priorityId: 1
+                taskStatusId: 1
+                assignedTask:
+                  - 1
+                name: create ads
+                startDate: '2023-04-24T14:21:00'
+                endDate: '2023-04-25T14:21:00'
+                description: create modules
+                completionTime: 40
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - pm > projectTask
+      summary: get all task by query or status
+      description: get all the task using query=all or status=true  or status=false
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '400':
+          description: Invalid query
+          content:
+            application/json: {}
+  /tasks/{id}:
+    get:
+      tags:
+        - pm > projectTask
+      summary: get single task
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}  
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - pm > projectTask
+      summary: delete a single task
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /tasks/{id}?query=all:
+    put:
+      tags:
+        - pm > projectTask
+      summary: update all
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                milestoneId: 1
+                name: create ads updated
+                startDate: '2023-04-24T14:21:00'
+                endDate: '2023-04-25T14:21:00'
+                description: create modules
+                completionTime: 50
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /tasks/{id}?query=status:
+    put:
+      tags:
+        - pm > projectTask
+      summary: update status
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: 'false'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /tasks/{id}?query=taskStatus:
+    put:
+      tags:
+        - pm > projectTask
+      summary: update taskStatus
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              example:
+                taskStatusId: 8
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /tasks/{id}?query=priority:
+    put:
+      tags:
+        - pm > projectTask
+      summary: update priority
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              example:
+                priorityId: 2
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /tasks/{id}?query=milestone:
+    put:
+      tags:
+        - pm > projectTask
+      summary: update milestone
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              example:
+                milestoneId: 2
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+
+  /project-team:
+    post:
+      tags:
+        - pm > project team
+      summary: create a projectTem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                projectTeamName: group A
+                projectId: 1
+                projectTeamMember:
+                  - 1
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - pm > project team
+      summary: get all project team by query or status
+      description: get all the project team using query=all or status=true  or status=false
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ['true', 'false']
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '400':
+          description: Invalid query
+          content:
+            application/json: {}
+  /project-team/{id}:
+    get:
+      tags:
+        - pm > project team
+      summary: get single projectTeamMember
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - pm > project team
+      summary: update status
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: 'false'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - pm > project team
+      summary: delete a projectTeamMember
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: "false"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /project-team/{id}?query=all:
+    put:
+      tags:
+        - pm > project team
+      summary: update all of project team
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                projectTeamName: group A
+                projectId: 1
+                projectTeamMember:
+                  - 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /project-team/{projectId}/project:
+    get:
+      tags:
+        - pm > project team
+      summary: get Team by Project ID
+      parameters: 
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+  
+  /task-status:
+    post:
+      tags:
+        - pm > task status
+      summary: create a taskStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                projectId: 1
+                name: test
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - pm > task status
+      summary: get all taskStatus
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+        - name: status
+          in: query
+          schema:
+            type: string
+            num: ['true', 'false']
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '400':
+          description: Invalid query
+          content:
+            application/json: {}
+  /task-status/{id}:
+    get:
+      tags:
+        - pm > task status
+      summary: get single taskStatus
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    put:
+      tags:
+        - pm > task status
+      summary: update taskStatus
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                projectId: 1
+                name: test task updated
+                status: 'false'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - pm > task status
+      summary: delete a taskStatus
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+  /task-status/{projectId}/project:
+    get:
+      tags:
+        - pm > task status
+      summary: get task status by projectID
+      parameters: 
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+
+  /task-priority:
+    post:
+      tags:
+        - pm > task priority
+      summary: create a taskPriority
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: critical
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    get:
+      tags:
+        - pm > task priority
+      summary: get all taskPriority
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            enum: ['all']
+            example: all
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '400':
+          description: Invalid query
+          content:
+            application/json: {}
+  /task-priority/{id}:
+    get:
+      tags:
+        - pm > task priority
+      summary: get single taskPriority
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+    put:
+      tags:
+        - pm > task priority
+      summary: update a single taskPriority
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: critical updated
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - pm > task priority
+      summary: delete taskPriority
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+        '500':
+          description: Server Side Error
+          content:
+            application/json: {}
+        '404':
+          description: Not Found!
+          content:
+            application/json: {}
