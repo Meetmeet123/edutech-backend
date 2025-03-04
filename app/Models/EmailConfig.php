@@ -2,19 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class EmailConfig extends Model
 {
-    use HasFactory;
-    protected $table = 'emailConfig';
+    protected $table = 'email_config';
     protected $primaryKey = 'id';
-    protected $fillable = [
-        'emailConfigName',
-        'emailHost',
-        'emailPort',
-        'emailUser',
-        'emailPass',
+    protected $fillable = ['email_type', 'smtp_username', 'smtp_password', 'status'];
+    protected $casts = [
+        'status' => 'boolean'
     ];
 }
