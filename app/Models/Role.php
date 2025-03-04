@@ -2,21 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    use HasFactory;
-
-    //create role model
-    protected $table = 'role';
+    protected $table = 'roles';
     protected $primaryKey = 'id';
-    protected $fillable = [
-        'name',
-    ];
-    public function rolePermission(): \Illuminate\Database\Eloquent\Relations\hasMany
+    protected $fillable = ['name'];
+
+    public function permissions()
     {
-        return $this->hasMany(RolePermission::class, 'roleId');
+        return $this->hasMany(RolePermission::class, 'role_id');
     }
 }
