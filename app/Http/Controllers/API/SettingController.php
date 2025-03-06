@@ -27,7 +27,7 @@ class SettingController extends Controller
             'sch_settings.languages', 'sch_settings.class_teacher', 'sch_settings.cron_secret_key',
             'sch_settings.timezone', 'sch_settings.superadmin_restriction', 'sch_settings.student_timeline',
             'sch_settings.name', 'sch_settings.email', 'sch_settings.biometric', 'sch_settings.biometric_device',
-            'sch_settings.time_format', 'sch_settings.phone', 'languages.name', 'sch_settings.attendence_type',
+            'sch_settings.time_format', 'sch_settings.phone', 'languages.language', 'sch_settings.attendence_type',
             'sch_settings.address', 'sch_settings.dise_code', 'sch_settings.date_format', 'sch_settings.currency',
             'sch_settings.currency_place', 'sch_settings.start_month', 'sch_settings.start_week',
             'sch_settings.session_id', 'sch_settings.fee_due_days', 'sch_settings.image', 'sch_settings.theme',
@@ -39,6 +39,7 @@ class SettingController extends Controller
             'sch_settings.student_panel_login', 'sch_settings.parent_panel_login', 'sch_settings.currency_format',
             'sch_settings.exam_result', 'sch_settings.base_url', 'sch_settings.folder_path', 'currencies.symbol as currency_symbol',
             'currencies.base_price', 'currencies.short_name as currency', 'currencies.id as currency_id',
+            'sch_settings.admin_login_page_background', 'sch_settings.user_login_page_background',
             'sch_settings.low_attendance_limit'
         )
             ->leftJoin('sessions', 'sessions.id', '=', 'sch_settings.session_id')

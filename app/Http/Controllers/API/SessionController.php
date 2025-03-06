@@ -26,7 +26,7 @@ class SessionController extends Controller
         $sessions = DB::select("
             SELECT sessions.*, IFNULL(sch_settings.session_id, 0) as active 
             FROM sessions 
-            LEFT JOIN sch_settings ON session_id = sch_settings.session_id
+            LEFT JOIN sch_settings ON sessions.id = sch_settings.session_id
         ");
         // Map 'active' to 'status' for consistency
         $result = array_map(function ($session) {
@@ -51,10 +51,10 @@ class SessionController extends Controller
         if (!$student_id) {
             return response()->json(['message' => 'Student ID is required'], 400);
         }
-        $sessions = Session::join('student_session', 'session_id', '=', 'student_session.session_id')
+        $sessions = Session::join('student_session', 'sessions.id', '=', 'student_session.session_id')
             ->where('student_session.student_id', $student_id)
             ->groupBy('student_session.session_id')
-            ->orderBy('session_id')
+            ->orderBy('sessions.id')
             ->get(['sessions.*'])
             ->toArray();
         return response()->json(['data' => $sessions], 200);

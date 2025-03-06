@@ -19,6 +19,9 @@ use App\Http\Controllers\API\SystemFieldController;
 use App\Http\Controllers\API\FiletypeController;
 use App\Http\Controllers\API\SidebarmenuController;
 use App\Http\Controllers\API\UpdaterController;
+use App\Http\Controllers\API\WhatsappConfigController;
+use App\Http\Controllers\API\CertificateController;
+use App\Http\Controllers\API\BackupController;
 
 Route::prefix('api')->group(function () {
     // SettingController
@@ -151,4 +154,21 @@ Route::prefix('api')->group(function () {
     // UpdaterController
     Route::get('/updater/{chk?}', [UpdaterController::class, 'index']);
     Route::post('/updater', [UpdaterController::class, 'store']);
+
+    // WhatsappConfigController
+    Route::get('/whatsapp-configs', [WhatsappConfigController::class, 'index'])->name('admin.whatsapp.index');
+    Route::post('/whatsapp-configs/update', [WhatsappConfigController::class, 'whatsapp'])->name('admin.whatsapp');
+
+    // CertificateController
+    Route::get('/certificates', [CertificateController::class, 'index'])->name('admin.certificate.index');
+    Route::post('/certificates/create', [CertificateController::class, 'create'])->name('admin.certificate.create');
+    Route::post('/certificates/edit/{id}', [CertificateController::class, 'edit'])->name('admin.certificate.edit');
+    Route::delete('/certificates/delete/{id}', [CertificateController::class, 'delete'])->name('admin.certificate.delete');
+    Route::post('/certificates/view', [CertificateController::class, 'view'])->name('admin.certificate.view');
+    Route::post('/certificates/view1', [CertificateController::class, 'view1'])->name('admin.certificate.view1');
+
+    // BackupController
+    Route::match(['get', 'post'], '/backup', [BackupController::class, 'backup'])->name('admin.backup');
+    Route::get('/downloadbackup/{filename}', [BackupController::class, 'download'])->name('admin.backup.download');
+    Route::delete('/dropbackup/{filename}', [BackupController::class, 'delete'])->name('admin.backup.delete');
 });

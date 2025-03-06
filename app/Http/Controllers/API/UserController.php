@@ -125,7 +125,7 @@ class UserController extends Controller
         $setting = SchSetting::first();
         $parentLogin = json_decode($setting->parent_login ?? '[]', true);
 
-        $query = User::select('users.*', 'languages.name', 'students.admission_no', 'students.guardian_name', 'students.roll_no', 'students.admission_date', 'students.firstname', 'students.middlename', 'students.lastname', 'students.image', 'students.father_pic', 'students.mother_pic', 'students.guardian_pic', 'students.guardian_relation', 'students.mobileno', 'students.email', 'students.state', 'students.city', 'students.pincode', 'students.religion', 'students.dob', 'students.current_address', 'students.permanent_address', 'students.gender', 'students.guardian_phone', 'students.guardian_email', 'students.guardian_is', 'languages.is_rtl', 'currencies.short_name as currency_name', 'currencies.symbol as symbol', 'currencies.base_price as base_price', 'currencies.id as currency')
+        $query = User::select('users.*', 'languages.language', 'students.admission_no', 'students.guardian_name', 'students.roll_no', 'students.admission_date', 'students.firstname', 'students.middlename', 'students.lastname', 'students.image', 'students.father_pic', 'students.mother_pic', 'students.guardian_pic', 'students.guardian_relation', 'students.mobileno', 'students.email', 'students.state', 'students.city', 'students.pincode', 'students.religion', 'students.dob', 'students.current_address', 'students.permanent_address', 'students.gender', 'students.guardian_phone', 'students.guardian_email', 'students.guardian_is', 'languages.is_rtl', 'currencies.short_name as currency_name', 'currencies.symbol as symbol', 'currencies.base_price as base_price', 'currencies.id as currency')
             ->join('students', 'students.parent_id', '=', 'users.id')
             ->join('languages', 'users.lang_id', '=', 'languages.id', 'left')
             ->join('currencies', 'currencies.id', '=', 'users.currency_id', 'left')
@@ -144,7 +144,7 @@ class UserController extends Controller
 
     public function readUserInformation($users_id)
     {
-        $user = User::select('users.*', 'languages.name', 'students.firstname', 'students.middlename', 'students.lastname', 'students.guardian_name', 'students.admission_no', 'students.email', 'currencies.short_name as currency_name', 'currencies.symbol as symbol', 'currencies.base_price as base_price', 'currencies.id as currency')
+        $user = User::select('users.*', 'languages.language', 'students.firstname', 'students.middlename', 'students.image', 'students.lastname', 'students.guardian_name', 'students.gender', 'students.admission_no', 'students.email', 'currencies.short_name as currency_name', 'currencies.symbol as symbol', 'currencies.base_price as base_price', 'currencies.id as currency')
             ->join('students', 'students.id', '=', 'users.user_id')
             ->join('languages', 'languages.id', '=', 'users.lang_id', 'left')
             ->join('currencies', 'currencies.id', '=', 'users.currency_id', 'left')
