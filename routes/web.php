@@ -25,6 +25,8 @@ use App\Http\Controllers\API\BackupController;
 use App\Http\Controllers\API\EnquiryController;
 use App\Http\Controllers\API\VisitorsController;
 use App\Http\Controllers\API\GeneralCallController;
+use App\Http\Controllers\API\DispatchController;
+use App\Http\Controllers\API\ComplaintController;
 
 Route::prefix('api')->group(function () {
     // SettingController
@@ -208,6 +210,26 @@ Route::prefix('api')->group(function () {
         Route::put('/{id}', [GeneralCallController::class, 'update']);
         Route::delete('/{id}', [GeneralCallController::class, 'destroy']);
         Route::get('/list', [GeneralCallController::class, 'getCallList']); // DataTables endpoint
+    });
+
+    Route::prefix('dispatch')->group(function () {
+        Route::get('/', [DispatchController::class, 'index']); // ?type=dispatch or ?type=receive
+        Route::post('/', [DispatchController::class, 'store']);
+        Route::get('/{id}', [DispatchController::class, 'show']);
+        Route::put('/{id}', [DispatchController::class, 'update']);
+        Route::delete('/{id}', [DispatchController::class, 'destroy']);
+        Route::get('/download/{id}', [DispatchController::class, 'download']);
+    });
+
+    Route::prefix('complaints')->group(function () {
+        Route::get('/', [ComplaintController::class, 'index']);
+        Route::post('/', [ComplaintController::class, 'store']);
+        Route::get('/{id}', [ComplaintController::class, 'show']);
+        Route::put('/{id}', [ComplaintController::class, 'update']);
+        Route::delete('/{id}', [ComplaintController::class, 'destroy']);
+        Route::get('/types', [ComplaintController::class, 'getComplaintTypes']);
+        Route::get('/sources', [ComplaintController::class, 'getComplaintSources']);
+        Route::get('/download/{id}', [ComplaintController::class, 'download']);
     });
 
 });
