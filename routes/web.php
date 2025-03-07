@@ -22,6 +22,9 @@ use App\Http\Controllers\API\UpdaterController;
 use App\Http\Controllers\API\WhatsappConfigController;
 use App\Http\Controllers\API\CertificateController;
 use App\Http\Controllers\API\BackupController;
+use App\Http\Controllers\API\EnquiryController;
+use App\Http\Controllers\API\VisitorsController;
+use App\Http\Controllers\API\GeneralCallController;
 
 Route::prefix('api')->group(function () {
     // SettingController
@@ -171,4 +174,40 @@ Route::prefix('api')->group(function () {
     Route::match(['get', 'post'], '/backup', [BackupController::class, 'backup'])->name('admin.backup');
     Route::get('/downloadbackup/{filename}', [BackupController::class, 'download'])->name('admin.backup.download');
     Route::delete('/dropbackup/{filename}', [BackupController::class, 'delete'])->name('admin.backup.delete');
+
+    // EnquiryController
+    Route::prefix('enquiry')->group(function () {
+        Route::get('/', [EnquiryController::class, 'index']);
+        Route::post('/', [EnquiryController::class, 'store']);
+        Route::get('/{id}', [EnquiryController::class, 'show']);
+        Route::put('/{id}', [EnquiryController::class, 'update']);
+        Route::delete('/{id}', [EnquiryController::class, 'destroy']);
+        Route::post('/{enquiryId}/follow-up', [EnquiryController::class, 'followUp']);
+        Route::get('/{enquiryId}/follow-ups', [EnquiryController::class, 'getFollowUps']);
+        Route::delete('/{enquiryId}/follow-up/{followUpId}', [EnquiryController::class, 'deleteFollowUp']);
+        Route::put('/{id}/status', [EnquiryController::class, 'changeStatus']);
+        Route::get('/classes', [EnquiryController::class, 'getClasses']);
+        Route::get('/sources', [EnquiryController::class, 'getSources']);
+        Route::get('/references', [EnquiryController::class, 'getReferences']);
+    });
+
+    // VisitorsController
+    Route::prefix('visitors')->group(function () {
+        Route::get('/', [VisitorsController::class, 'index']);
+        Route::post('/', [VisitorsController::class, 'store']);
+        Route::get('/{id}', [VisitorsController::class, 'show']);
+        Route::put('/{id}', [VisitorsController::class, 'update']);
+        Route::delete('/{id}', [VisitorsController::class, 'destroy']);
+        Route::get('/purposes', [VisitorsController::class, 'getPurposes']);
+    });
+
+    Route::prefix('general-calls')->group(function () {
+        Route::get('/', [GeneralCallController::class, 'index']);
+        Route::post('/', [GeneralCallController::class, 'store']);
+        Route::get('/{id}', [GeneralCallController::class, 'show']);
+        Route::put('/{id}', [GeneralCallController::class, 'update']);
+        Route::delete('/{id}', [GeneralCallController::class, 'destroy']);
+        Route::get('/list', [GeneralCallController::class, 'getCallList']); // DataTables endpoint
+    });
+
 });
