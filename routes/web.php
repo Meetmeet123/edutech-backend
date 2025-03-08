@@ -27,6 +27,10 @@ use App\Http\Controllers\API\VisitorsController;
 use App\Http\Controllers\API\GeneralCallController;
 use App\Http\Controllers\API\DispatchController;
 use App\Http\Controllers\API\ComplaintController;
+use App\Http\Controllers\API\VisitorsPurposeController;
+use App\Http\Controllers\API\ComplaintTypeController;
+use App\Http\Controllers\API\SourceController;
+use App\Http\Controllers\API\ReferenceController;
 
 Route::prefix('api')->group(function () {
     // SettingController
@@ -203,6 +207,7 @@ Route::prefix('api')->group(function () {
         Route::get('/purposes', [VisitorsController::class, 'getPurposes']);
     });
 
+    // GeneralCallController
     Route::prefix('general-calls')->group(function () {
         Route::get('/', [GeneralCallController::class, 'index']);
         Route::post('/', [GeneralCallController::class, 'store']);
@@ -212,6 +217,7 @@ Route::prefix('api')->group(function () {
         Route::get('/list', [GeneralCallController::class, 'getCallList']); // DataTables endpoint
     });
 
+    // DispatchController
     Route::prefix('dispatch')->group(function () {
         Route::get('/', [DispatchController::class, 'index']); // ?type=dispatch or ?type=receive
         Route::post('/', [DispatchController::class, 'store']);
@@ -221,6 +227,7 @@ Route::prefix('api')->group(function () {
         Route::get('/download/{id}', [DispatchController::class, 'download']);
     });
 
+    // ComplaintController
     Route::prefix('complaints')->group(function () {
         Route::get('/', [ComplaintController::class, 'index']);
         Route::post('/', [ComplaintController::class, 'store']);
@@ -232,4 +239,39 @@ Route::prefix('api')->group(function () {
         Route::get('/download/{id}', [ComplaintController::class, 'download']);
     });
 
+    // VisitorsPurposeController
+    Route::prefix('visitors-purposes')->group(function () {
+        Route::get('/', [VisitorsPurposeController::class, 'index']);
+        Route::post('/', [VisitorsPurposeController::class, 'store']);
+        Route::get('/{id}', [VisitorsPurposeController::class, 'show']);
+        Route::put('/{id}', [VisitorsPurposeController::class, 'update']);
+        Route::delete('/{id}', [VisitorsPurposeController::class, 'destroy']);
+    });
+
+    // ComplaintTypeController
+    Route::prefix('complaint-types')->group(function () {
+        Route::get('/', [ComplaintTypeController::class, 'index']);
+        Route::post('/', [ComplaintTypeController::class, 'store']);
+        Route::get('/{id}', [ComplaintTypeController::class, 'show']);
+        Route::put('/{id}', [ComplaintTypeController::class, 'update']);
+        Route::delete('/{id}', [ComplaintTypeController::class, 'destroy']);
+    });
+
+    // SourceController
+    Route::prefix('sources')->group(function () {
+        Route::get('/', [SourceController::class, 'index']);
+        Route::post('/', [SourceController::class, 'store']);
+        Route::get('/{id}', [SourceController::class, 'show']);
+        Route::put('/{id}', [SourceController::class, 'update']);
+        Route::delete('/{id}', [SourceController::class, 'destroy']);
+    });
+
+    // ReferenceController
+    Route::prefix('references')->group(function () {
+        Route::get('/', [ReferenceController::class, 'index']);
+        Route::post('/', [ReferenceController::class, 'store']);
+        Route::get('/{id}', [ReferenceController::class, 'show']);
+        Route::put('/{id}', [ReferenceController::class, 'update']);
+        Route::delete('/{id}', [ReferenceController::class, 'destroy']);
+    });
 });

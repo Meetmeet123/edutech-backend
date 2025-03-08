@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EnquiryType extends Model // Repeat for Source, ComplaintType, Reference
+class EnquiryType extends Model 
 {
-    protected $table = 'enquiry_type'; // source, complaint_type, reference
+    protected $table = 'enquiry_type'; 
     protected $fillable = ['name'];
 }
