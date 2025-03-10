@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
+        'api/*',
         'api/settings/mysql-version',
         'api/settings/sql-mode',
         'api/settings/*',
@@ -34,5 +35,20 @@ class VerifyCsrfToken extends Middleware
         'api/sidebar-menus/*',
         'api/sidebar-sub-menus/*',
         'api/updater/*',
+        'api/whatsapp-configs/*',
+        'api/certificates/*',
+        'api/backup/*',
+        'api/downloadbackup/*',
+        'api/dropbackup/*',
+        'api/enquiry/*',
+        'api/visitors/*',
+        'api/general-calls/*',
+        'api/dispatch/*',
+        'api/complaints/*',
+        'api/visitors-purposes/*',
+        'api/complaint-types/*',
+        'api/sources/*',
+        'api/references/*',
+        'api/exam-groups/*',
     ];
 }

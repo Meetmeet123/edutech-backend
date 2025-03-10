@@ -31,6 +31,7 @@ use App\Http\Controllers\API\VisitorsPurposeController;
 use App\Http\Controllers\API\ComplaintTypeController;
 use App\Http\Controllers\API\SourceController;
 use App\Http\Controllers\API\ReferenceController;
+use App\Http\Controllers\Api\ExamGroupController;
 
 Route::prefix('api')->group(function () {
     // SettingController
@@ -273,5 +274,14 @@ Route::prefix('api')->group(function () {
         Route::get('/{id}', [ReferenceController::class, 'show']);
         Route::put('/{id}', [ReferenceController::class, 'update']);
         Route::delete('/{id}', [ReferenceController::class, 'destroy']);
+    });
+
+    // ExamGroupController
+    Route::group(['prefix' => 'exam-groups'], function () {
+        Route::get('/', [ExamGroupController::class, 'index']);
+        Route::post('/', [ExamGroupController::class, 'store']);
+        Route::get('/{id}', [ExamGroupController::class, 'show']);
+        Route::put('/{id}', [ExamGroupController::class, 'update']);
+        Route::delete('/{id}', [ExamGroupController::class, 'destroy']);
     });
 });
