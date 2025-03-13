@@ -30,4 +30,14 @@ class StudentSession extends Model
     {
         return $this->belongsTo(Section::class, 'section_id');
     }
+
+    public function sessions()
+    {
+        return $this->belongsTo(Session::class, 'session_id');
+    }
+
+    public function examGroups()
+    {
+        return $this->hasMany(ExamGroupStudent::class, 'student_session_id');
+    }
 }

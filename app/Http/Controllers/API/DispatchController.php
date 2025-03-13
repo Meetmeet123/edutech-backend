@@ -27,7 +27,7 @@ class DispatchController extends Controller
             'from_title' => 'required|string',
             'date' => 'required|date',
             'type' => 'required|in:dispatch,receive',
-            'image' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048', // 2MB max
+            'image' => 'nullable|string', // Expect base64 string
         ]);
 
         if ($validator->fails()) {
@@ -41,10 +41,11 @@ class DispatchController extends Controller
             ]);
             $dispatch = DispatchReceive::create($dispatchData);
 
-            if ($request->hasFile('image')) {
-                $file = $request->file('image');
-                $imgName = 'id' . $dispatch->id . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('dispatch_receive', $imgName, 'public');
+            if ($request->has('image') && $request->image) {
+                $imageData = base64_decode(preg_replace('#^data:(image|application)/(jpeg|png|pdf);base64,#i', '', $request->image));
+                $extension = strpos($request->image, 'pdf') !== false ? 'pdf' : 'jpg'; // Default to jpg for images
+                $imgName = 'id' . $dispatch->id . '.' . $extension;
+                Storage::disk('public')->put('dispatch_receive/' . $imgName, $imageData);
                 $dispatch->update(['image' => $imgName]);
             }
 
@@ -69,7 +70,7 @@ class DispatchController extends Controller
             'from_title' => 'required|string',
             'date' => 'required|date',
             'type' => 'required|in:dispatch,receive',
-            'image' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'image' => 'nullable|string', // Expect base64 string
         ]);
 
         if ($validator->fails()) {
@@ -84,13 +85,14 @@ class DispatchController extends Controller
             ]);
             $dispatch->update($dispatchData);
 
-            if ($request->hasFile('image')) {
+            if ($request->has('image') && $request->image) {
                 if ($dispatch->image) {
                     Storage::disk('public')->delete('dispatch_receive/' . $dispatch->image);
                 }
-                $file = $request->file('image');
-                $imgName = 'id' . $id . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('dispatch_receive', $imgName, 'public');
+                $imageData = base64_decode(preg_replace('#^data:(image|application)/(jpeg|png|pdf);base64,#i', '', $request->image));
+                $extension = strpos($request->image, 'pdf') !== false ? 'pdf' : 'jpg'; // Default to jpg for images
+                $imgName = 'id' . $id . '.' . $extension;
+                Storage::disk('public')->put('dispatch_receive/' . $imgName, $imageData);
                 $dispatch->update(['image' => $imgName]);
             }
 

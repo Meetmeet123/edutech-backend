@@ -65,5 +65,19 @@ class ExamGroup extends Model
         }
     }
 
-    // Add other methods as needed, converting CodeIgniter queries to Laravel Eloquent or Query Builder
+    // Relationships
+    public function exams()
+    {
+        return $this->hasMany(ExamGroupClassBatchExam::class, 'exam_group_id');
+    }
+
+    public function connections()
+    {
+        return $this->hasMany(ExamGroupExamConnection::class, 'exam_group_id');
+    }
+
+    public function students()
+    {
+        return $this->hasMany(ExamGroupStudent::class, 'exam_group_id');
+    }
 }

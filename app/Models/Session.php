@@ -10,4 +10,9 @@ class Session extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['session', 'status'];
     protected $casts = ['status' => 'boolean'];
+
+    public function exams()
+    {
+        return $this->hasMany(ExamGroupClassBatchExam::class, 'session_id');
+    }
 }
