@@ -17,6 +17,7 @@ use App\Models\ExamSubject;
 use App\Models\SubjectGroup;
 use App\Models\ExamMarksDistributionType;
 use App\Models\ExamMarkDistributionComponent;
+use App\Models\ExamMarksDistributionComponent;
 use App\Models\ExamSubjectwiseRemark;
 use App\Models\ExamClasswiseSubjectsMark;
 use App\Models\ExamClassSubjectsComponent;
@@ -797,7 +798,7 @@ class ExamPatternController extends Controller
 
             if ($request->has('name') && !empty($request->name)) {
                 foreach ($request->name as $comp_name) {
-                    ExamMarkDistributionComponent::create([
+                    ExamMarksDistributionComponent::create([
                         'name' => $comp_name,
                         'mdtid' => $request->mark_dist_type,
                         'status' => 1,
@@ -812,7 +813,7 @@ class ExamPatternController extends Controller
             'title' => 'Add Batch',
             'title_list' => 'Recent Batch',
             'examType' => $this->exam_type,
-            'examgrouplist' => ExamMarkDistributionComponent::where('status', 1)->orderBy('id', 'asc')->get(),
+            'examgrouplist' => ExamMarksDistributionComponent::where('status', 1)->orderBy('id', 'asc')->get(),
             'marks_dist_types' => ExamMarksDistributionType::where('status', 1)->orderBy('id', 'asc')->get(),
         ]);
     }
@@ -831,7 +832,7 @@ class ExamPatternController extends Controller
                 return response()->json(['status' => 0, 'error' => $validator->errors()]);
             }
 
-            ExamMarkDistributionComponent::findOrFail($id)->update([
+            ExamMarksDistributionComponent::findOrFail($id)->update([
                 'mdtid' => $request->mark_dist_type,
                 'name' => $request->name,
                 'status' => 1,
@@ -843,9 +844,9 @@ class ExamPatternController extends Controller
 
         return response()->json([
             'id' => $id,
-            'examgroup' => ExamMarkDistributionComponent::findOrFail($id),
+            'examgroup' => ExamMarksDistributionComponent::findOrFail($id),
             'examType' => $this->exam_type,
-            'examgrouplist' => ExamMarkDistributionComponent::where('status', 1)->orderBy('id', 'asc')->get(),
+            'examgrouplist' => ExamMarksDistributionComponent::where('status', 1)->orderBy('id', 'asc')->get(),
             'marks_dist_types' => ExamMarksDistributionType::where('status', 1)->orderBy('id', 'asc')->get(),
         ]);
     }
@@ -853,7 +854,7 @@ class ExamPatternController extends Controller
     public function deleteMarksDistributionComponent($id)
     {
         Gate::authorize('delete', 'exam_group');
-        ExamMarkDistributionComponent::findOrFail($id)->update(['status' => 3]);
+        ExamMarksDistributionComponent::findOrFail($id)->update(['status' => 3]);
         return response()->json(['status' => 1, 'message' => __('record_deleted_successfully')]);
     }
 
@@ -1104,7 +1105,7 @@ class ExamPatternController extends Controller
             'subjects' => Subject::orderBy('id', 'asc')->get(),
             'classlist' => ClassModel::all(),
             'subjectgroupList' => SubjectGroup::all(),
-            'mark_dist_components' => ExamMarkDistributionComponent::where('status', 1)->orderBy('id', 'asc')->get(),
+            'mark_dist_components' => ExamMarksDistributionComponent::where('status', 1)->orderBy('id', 'asc')->get(),
             'mark_subject_components' => ExamClassSubjectsComponent::where('status', 1)->orderBy('id', 'asc')->get(),
         ]);
     }
@@ -1186,7 +1187,7 @@ class ExamPatternController extends Controller
             'subjects' => Subject::orderBy('id', 'asc')->get(),
             'classlist' => ClassModel::all(),
             'subjectgroupList' => SubjectGroup::all(),
-            'mark_dist_components' => ExamMarkDistributionComponent::where('status', 1)->orderBy('id', 'asc')->get(),
+            'mark_dist_components' => ExamMarksDistributionComponent::where('status', 1)->orderBy('id', 'asc')->get(),
             'mark_subject_components' => ExamClassSubjectsComponent::where('status', 1)->orderBy('id', 'asc')->get(),
         ]);
     }
